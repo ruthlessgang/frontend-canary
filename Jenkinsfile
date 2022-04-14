@@ -48,18 +48,19 @@ spec:
       steps {
         container('gcloud') {
             sh '''
+            export GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/key.json"
             gcloud auth list
             '''
         }
       }
     }
-    stage('Bake') {
+    /** stage('Bake') {
       steps {
         container('kaniko') {
             sh '''
             pwd
             /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary 
-            '''
+            ''' **/
         }
       }
       
