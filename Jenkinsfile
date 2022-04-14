@@ -48,6 +48,7 @@ spec:
       steps {
         container('gcloud') {
             sh '''
+            cat /var/secrets/google/key.json
             export GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
             gcloud auth list
             '''
