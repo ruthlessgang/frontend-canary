@@ -19,6 +19,10 @@ labels:
   component: ci
 spec:
   restartPolicy: Never
+  volumes:
+  - name: google-cloud-key
+    secret: 
+      secretName: jenkins-sa 
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
@@ -27,6 +31,12 @@ spec:
     tty: true
   - name: gcloud
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+    volumeMounts: 
+    - name: google-cloud-key
+      mountPath: /var/secrets/google
+    env:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /var/secrets/google/key.json
     command:
     - cat
     tty: true
