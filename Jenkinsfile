@@ -42,6 +42,7 @@ spec:
             '''
         }
       }
+    }
     stage('Bake') {
       steps {
         container('kaniko') {
@@ -54,5 +55,4 @@ spec:
       
       }
     }
-}
 }
