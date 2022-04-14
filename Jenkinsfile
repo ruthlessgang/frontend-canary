@@ -26,7 +26,7 @@ spec:
     - cat
     tty: true
   - name: gcloud
-    image: google-cloud/sdk
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     command:
     - cat
     tty: true
