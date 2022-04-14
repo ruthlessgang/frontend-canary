@@ -61,7 +61,5 @@ spec:
             pwd
             /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary 
             ''' **/
-        }
       } 
    }
-}
