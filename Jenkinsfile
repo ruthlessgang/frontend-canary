@@ -13,37 +13,37 @@ pipeline {
 apiVersion: v1
 kind: Pod
 metadata:
- name: kaniko
+  name: kaniko
+labels:
+  component: ci
 spec:
- containers:
- - name: kaniko
-   image: gcr.io/kaniko-project/executor:debug
-   command:
-   - /busybox/cat
-   tty: true
-   volumeMounts:
-     - name: kaniko-secret
-       mountPath: /secret
-   env:
-     - name: GOOGLE_APPLICATION_CREDENTIALS
-       value: /secret/kaniko-secret.json
- restartPolicy: Never
- volumes:
-   - name: kaniko-secret
-     secret:
-       secretName: kaniko-secret
-  
+  restartPolicy: Never 
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+  volumes:
+  - name: google-cloud-key
+    secret: 
+      secretName: jenkins-sa
+    volumeMounts: 
+    - name: google-cloud-key
+      mountPath: /var/secrets/google
+    env:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /var/secrets/google/key.json  
+    command:
+    - cat
+    tty: true
   """
 }
   }
   stages {
     stage('Bake') {
       steps {
-        container(name: 'kaniko', shell: '/busybox/sh') {
+        container('kaniko') {
             sh '''
             pwd
-            gcloud 
-            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary
+            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary 
             '''
       } 
    }
