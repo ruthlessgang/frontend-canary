@@ -39,7 +39,7 @@ spec:
   stages {
     stage('Bake') {
       steps {
-        container('kaniko', shell: '/busybox/sh') {
+        container(name: 'kaniko', shell: '/busybox/sh') {
             sh '''
             pwd
             /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --verbosity debug --insecure --skip-tls-verify  --destination=gcr.io/gj-playground/frontend-canary 
