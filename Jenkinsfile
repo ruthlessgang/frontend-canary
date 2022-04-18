@@ -20,7 +20,7 @@ spec:
   restartPolicy: Never 
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
+    image: gcr.io/kaniko-project/executor:debug
   volumes:
   - name: google-cloud-key
     secret: 
@@ -34,42 +34,21 @@ spec:
     command:
     - cat
     tty: true
-  - name: gcloud
-    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
-  volumes:
-  - name: google-cloud-key
-    secret: 
-      secretName: jenkins-sa  
-    volumeMounts: 
-    - name: google-cloud-key
-      mountPath: /var/secrets/google
-    env:
-    - name: GOOGLE_APPLICATION_CREDENTIALS
-      value: /var/secrets/google/key.json
-    command:
-    - cat
-    tty: true
   """
 }
   }
   stages {
-    stage('test') {
-      steps {
-        container('gcloud') {
-            sh '''
-            cat /var/secrets/google/key.json
-            export GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
-            gcloud auth list
-            '''
-        }
-      }
-    }
-    /** stage('Bake') {
+    stage('Bake') {
       steps {
         container('kaniko') {
             sh '''
             pwd
             /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary 
-            ''' **/
+            '''
       } 
    }
+  
+    }
+    
+  }
+}
