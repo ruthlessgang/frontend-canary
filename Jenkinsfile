@@ -20,7 +20,7 @@ spec:
   restartPolicy: Never 
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor
+    image: gcr.io/kaniko-project/executor:debug
   volumes:
   - name: google-cloud-key
     secret: 
