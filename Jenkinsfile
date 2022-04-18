@@ -20,17 +20,7 @@ spec:
   restartPolicy: Never 
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
-  volumes:
-  - name: google-cloud-key
-    secret: 
-      secretName: jenkins-sa
-    volumeMounts: 
-    - name: google-cloud-key
-      mountPath: /var/secrets/google
-    env:
-    - name: GOOGLE_APPLICATION_CREDENTIALS
-      value: /var/secrets/google/key.json  
+    image: gcr.io/kaniko-project/executor:debug
     command:
     - cat
     tty: true
