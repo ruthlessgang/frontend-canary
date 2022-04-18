@@ -17,7 +17,7 @@ metadata:
 spec:
  containers:
  - name: kaniko
-   image: gcr.io/kaniko-project/executor:debug
+   image: gcr.io/kaniko-project/executor
    volumeMounts:
      - name: kaniko-secret
        mountPath: /secret
