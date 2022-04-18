@@ -17,7 +17,7 @@ metadata:
 spec:
  containers:
  - name: kaniko
-   image: gcr.io/kaniko-project/executor
+   image: gcr.io/kaniko-project/executor:debug
    command:
    - /busybox/cat
    tty: true
