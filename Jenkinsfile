@@ -42,7 +42,6 @@ spec:
         container(name: 'kaniko', shell: '/busybox/sh') {
             sh '''
             pwd
-            gcloud 
             /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary
             '''
       } 
