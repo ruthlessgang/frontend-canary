@@ -24,10 +24,26 @@ spec:
     command:
     - cat
     tty: true
+  - name: gcloud
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+    command:
+    - cat
+    tty: true
+  
   """
 }
   }
   stages {
+    stage('test') {
+      steps {
+        container('gcloud') {
+          sh ''' 
+          gcloud auth list
+          '''
+      } 
+   }
+  
+    }
     stage('Bake') {
       steps {
         container('kaniko') {
