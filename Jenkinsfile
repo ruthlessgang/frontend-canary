@@ -42,7 +42,7 @@ spec:
         container(name: 'kaniko', shell: '/busybox/sh') {
             sh '''
             pwd
-            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --verbosity debug --insecure --skip-tls-verify  --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary:latest 
+            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --verbosity --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary
             '''
       } 
    }
