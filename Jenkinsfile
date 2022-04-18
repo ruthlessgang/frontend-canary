@@ -10,48 +10,30 @@ pipeline {
     kubernetes {
       defaultContainer 'jnlp'
       yaml """
-  name: kaniko
-labels:
-  component: ci
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kaniko
 spec:
-  restartPolicy: Never 
-  containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    volumeMounts:
-    - name: kaniko-secret
-      mountPath: /secret
-    env:
-    - name: GOOGLE_APPLICATION_CREDENTIALS
-      value: /secret/kaniko-secret.json
-  restartPolicy: Never
-  volumes:
-  - name: kaniko-secret
-    secret:
-      secretName: kaniko-secret  
-    command:
-    - cat
-    tty: true
-  - name: gcloud
-    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
-    command:
-    - cat
-    tty: true
+ containers:
+ - name: kaniko
+   image: gcr.io/kaniko-project/executor:debug
+   volumeMounts:
+     - name: kaniko-secret
+       mountPath: /secret
+   env:
+     - name: GOOGLE_APPLICATION_CREDENTIALS
+       value: /secret/kaniko-secret.json
+ restartPolicy: Never
+ volumes:
+   - name: kaniko-secret
+     secret:
+       secretName: kaniko-secret
   
   """
 }
   }
   stages {
-    stage('test') {
-      steps {
-        container('gcloud') {
-          sh ''' 
-          gcloud auth list
-          '''
-      } 
-   }
-  
-    }
     stage('Bake') {
       steps {
         container('kaniko') {
