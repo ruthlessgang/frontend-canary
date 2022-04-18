@@ -19,8 +19,8 @@ spec:
  - name: kaniko
    image: gcr.io/kaniko-project/executor
    command:
-    - /busybox/cat
-    tty: true
+   - /busybox/cat
+   tty: true
    volumeMounts:
      - name: kaniko-secret
        mountPath: /secret
