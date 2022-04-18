@@ -10,9 +10,6 @@ pipeline {
     kubernetes {
       defaultContainer 'jnlp'
       yaml """
-apiVersion: v1
-kind: Pod
-metadata:
   name: kaniko
 labels:
   component: ci
@@ -22,16 +19,16 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     volumeMounts:
-       - name: kaniko-secret
-         mountPath: /secret
-     env:
-       - name: GOOGLE_APPLICATION_CREDENTIALS
-         value: /secret/kaniko-secret.json
-   restartPolicy: Never
-   volumes:
-     - name: kaniko-secret
-       secret:
-         secretName: kaniko-secret  
+    - name: kaniko-secret
+      mountPath: /secret
+    env:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /secret/kaniko-secret.json
+  restartPolicy: Never
+  volumes:
+  - name: kaniko-secret
+    secret:
+      secretName: kaniko-secret  
     command:
     - cat
     tty: true
