@@ -1,7 +1,7 @@
 pipeline {
   environment {
     PROJECT = "gj-playground"
-    IMAGE_TAG = "gcr.io/gj-playground/frontend-canary"
+    IMAGE_TAG = "gcr.io/gj-playground/frontend-baseline"
     SVC_ACCOUNT_KEY = credentials('jenkins-sa')
   }
   agent {
@@ -19,16 +19,6 @@ spec:
   containers:
   - name: gcloud
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
-  volumes:
-  - name: jenkins-sa
-    secret:
-      secretName: jenkins-sa
-    volumeMounts:
-    - name: jenkins-sa
-      mountPath: /secret
-    env:
-    - name: GOOGLE_APPLICATION_CREDENTIALS
-      value: /secret/kaniko-secret.json
     command:
     - cat
     tty: true
@@ -45,9 +35,9 @@ spec:
       steps {
         container('gcloud') {
             sh '''
-            echo -n $SVC_ACCOUNT_KEY > "${HOME}/serviceaccount.json"
+            echo -n $SVC_ACCOUNT_KEY | base64 -d > "${HOME}/serviceaccount.json"
             cat ${HOME}/serviceaccount.json
-            gcloud auth activate-service-account --key-file="${HOME}/serviceaccount.json"
+            gcloud auth activate-service-account --key-file=${HOME}/serviceaccount.json
             gcloud auth list
             '''
         }
@@ -59,7 +49,7 @@ spec:
         container('kaniko') {
             sh '''
             pwd
-            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary 
+            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary
             '''
         }
       }
