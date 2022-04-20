@@ -23,7 +23,7 @@ spec:
     - cat
     tty: true
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
+    image: gcr.io/kaniko-project/executor:v1.8.0-debug
     command:
     - cat
     tty: true
