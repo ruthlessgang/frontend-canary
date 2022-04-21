@@ -1,7 +1,7 @@
 pipeline {
   environment {
     PROJECT = "gj-playground"
-    IMAGE_TAG = "gcr.io/gj-playground/frontend-baseline"
+    IMAGE_TAG = "gcr.io/gj-playground/frontend-canary"
     SVC_ACCOUNT_KEY = credentials('jenkins-sa')
   }
   agent {
