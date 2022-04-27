@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    PROJECT = "gj-playground"
-    IMAGE_TAG = "gcr.io/gj-playground/frontend-canary"
+    PROJECT = "fis-poc-346406"
+    IMAGE_TAG = "asia.gcr.io/fis-poc-346406/frontend-canary"
     SVC_ACCOUNT_KEY = credentials('jenkins-sa')
   }
   agent {
@@ -49,7 +49,7 @@ spec:
         container('kaniko') {
             sh '''
             pwd
-            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcan --destination=gcr.io/gj-playground/frontend-canary --destination=gcr.io/gj-playground/frontend-canary
+            /kaniko/executor --dockerfile=./Dockerfile --context=/home/jenkins/agent/workspace/frontendcanary --destination=asia.gcr.io/fis-poc-346406/frontend-canary --destination=asia.gcr.io/fis-poc-346406/frontend-canary
             '''
         }
       }
